@@ -12,7 +12,7 @@
   "author": "wangkaiwd <1162486176@qq.com>",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "git@github.com:wangkaiwd/TypeScript-project.git"
   },
   "license": "MIT",
   "engines": {
