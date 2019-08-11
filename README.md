@@ -14,3 +14,5 @@
 * `axios.post`
 * `axios.put`
 * `axios.patch`
+
+#### 处理`get`请求的参数`params`
