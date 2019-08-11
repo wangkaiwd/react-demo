@@ -1,7 +1,15 @@
 import { isDate, isObject } from './utils'
 
+// https://www.the-art-of-web.com/javascript/escape/
+// 处理特殊符号: '@', ':' ,'$', ',','+','[',']'
 const encode = (value: string): string => {
   return encodeURIComponent(value)
+    .replace(/%40/g, '@')
+    .replace(/%3A/ig, ':')
+    .replace(/%2C/ig, ',')
+    .replace(/20%/g, '+')
+    .replace(/%5B/ig, '[')
+    .replace(/%5D/ig, ']')
 }
 // http://www.example.com:80/path/to/myfile.html?key1=value1&key2=value2#SomewhereInTheDocument
 // {key1:value1,key2:value2}
