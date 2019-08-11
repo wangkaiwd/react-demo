@@ -5,12 +5,17 @@ type Method = 'get' | 'GET'
   | 'head' | 'HEAD'
   | 'put' | 'PUT'
   | 'patch' | 'PATCH'
-interface XXX {
+
+export interface AnyObject {
   [key: string]: any
 }
+
 export interface AxiosConfig {
   url: string;
   method?: Method;
   data?: any;
   params?: any;
+  headers?: AnyObject;
 }
+
+
