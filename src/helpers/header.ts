@@ -7,8 +7,8 @@ const normalizeHeader = (headers: AnyObject, normalizedHeader: string): void => 
   if (!headers) return
   Object.keys(headers).forEach(key => {
     if (key !== normalizedHeader && key.toUpperCase() === normalizedHeader.toUpperCase()) {
-      headers[normalizedHeader] = headers[name]
-      delete headers[name]
+      headers[normalizedHeader] = headers[key]
+      delete headers[key]
     }
   })
 }
@@ -17,7 +17,7 @@ export const processHeaders = (headers: AnyObject, data: any): AnyObject => {
   normalizeHeader(headers, 'Content-Type')
   // 如果是原生普通对象，默认请求头为`application/json;charset=utf-8`
   // Content-Type: 实体头部用于指示资源的MIME类型
-  if (isPlainObject(data) && headers && headers['Content-Type']) {
+  if (isPlainObject(data) && headers && !headers['Content-Type']) {
     headers['Content-Type'] = 'application/json;charset=utf-8'
   }
   return headers

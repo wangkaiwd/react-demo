@@ -67,6 +67,15 @@ import axios from '../../src'
 // })
 
 // post请求
+// axios({
+//   url: '/base/post',
+//   method: 'post',
+//   data: {
+//     a: 1,
+//     b: 2
+//   }
+// })
+
 axios({
   url: '/base/post',
   method: 'post',
