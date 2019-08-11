@@ -25,9 +25,9 @@ const joinParamsForUrl = (url: string, keyValuePairs: string[]): string => {
     }
     // 如果之前就有?即query string参数，则继续在后面拼接参数，否则直接通过?拼接参数
     if (url.indexOf('?') === -1) {
-      resultUrl = `${url}?${serializeParams}`
+      resultUrl = `${resultUrl}?${serializeParams}`
     } else {
-      resultUrl = `${url}${serializeParams}`
+      resultUrl = `${resultUrl}&${serializeParams}`
     }
   }
   return resultUrl
@@ -41,13 +41,15 @@ export const buildUrl = (url: string, params?: any): string => {
   for (const key in params) {
     if (params.hasOwnProperty(key)) {
       const value = params[key]
-      if (value === null || typeof value === 'undefined') break
+      if (value === null || typeof value === 'undefined') continue
       if (Array.isArray(value)) {
-        addKeyValuesPair(`${key}[]`, JSON.stringify(value))
+        value.forEach(item => addKeyValuesPair(`${key}[]`, item))
       } else if (isDate(value)) {
-        addKeyValuesPair(key, value.toISOStirng())
+        addKeyValuesPair(key, value.toISOString())
       } else if (isObject(value)) {
         addKeyValuesPair(key, JSON.stringify(value))
+      } else {
+        addKeyValuesPair(key, value)
       }
     }
   }
