@@ -1,4 +1,4 @@
-import { isDate, isObject } from './utils'
+import { isDate, isPlainObject } from './utils'
 
 // https://www.the-art-of-web.com/javascript/escape/
 // 处理特殊符号: '@', ':' ,'$', ',','+','[',']'
@@ -47,7 +47,7 @@ export const buildUrl = (url: string, params?: any): string => {
         value.forEach(item => addKeyValuesPair(`${key}[]`, item))
       } else if (isDate(value)) {
         addKeyValuesPair(key, value.toISOString())
-      } else if (isObject(value)) {
+      } else if (isPlainObject(value)) {
         addKeyValuesPair(key, JSON.stringify(value))
       } else {
         addKeyValuesPair(key, value)

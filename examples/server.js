@@ -21,6 +21,7 @@ app.use(webpackHotMiddleware(compiler))
 
 app.use(express.static(__dirname))
 
+// 只能处理application/json的请求
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
@@ -30,6 +31,22 @@ registerSimpleRouter()
 
 router.get('/base/get', (req, res) => {
   res.json(req.query)
+})
+
+router.post('/base/post', (req, res) => {
+  res.json(req.query)
+})
+router.post('/base/buffer', (req, res) => {
+  let msg = []
+  req.on('data', chunk => {
+    if (chunk) {
+      msg.push(chunk)
+    }
+  })
+  req.on('end', () => {
+    let buf = Buffer.concat(msg)
+    res.json(buf.toJSON())
+  })
 })
 app.use(router)
 

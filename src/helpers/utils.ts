@@ -5,7 +5,7 @@ export const isDate = (value: Date): value is Date => {
   return toString.call(value) === '[object Date]'
 }
 
-export const isObject = (value: any): value is object => {
+export const isPlainObject = (value: any): value is object => {
   // return value !== null && typeof value === 'object'
   return toString.call(value) === '[object Object]'
 }
