@@ -6,7 +6,7 @@ import { processHeaders } from './helpers/header'
 
 const axios = (config: AxiosConfig) => {
   processConfig(config)
-  xhr(config)
+  return xhr(config)
 }
 
 const processConfig = (config: AxiosConfig) => {

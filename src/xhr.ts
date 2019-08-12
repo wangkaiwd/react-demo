@@ -34,13 +34,12 @@ const xhr = (config: AxiosConfig): AxiosPromise => {
     // readystatechange会在XMLHttpRequest的readyState属性发生改变时触发
     // 当readyState的值为4的时候表示请求已经完成
     request.addEventListener('readystatechange', () => {
-      if (request.readyState === 4) {
-        // request.getAllResponseHeaders: 返回所有响应头
-        const headers = request.getAllResponseHeaders()
-        const data = request.response
-        const { status, statusText } = request
-        resolve({ headers, data, status, statusText, config, request })
-      }
+      if (request.readyState !== 4) return
+      // request.getAllResponseHeaders: 返回所有响应头
+      const headers = request.getAllResponseHeaders()
+      const data = request.response
+      const { status, statusText } = request
+      resolve({ headers, data, status, statusText, config, request })
     })
   })
 
