@@ -1,25 +1,48 @@
 import { AxiosConfig } from './types'
 
-const xhr = (config: AxiosConfig) => {
-  // TypeScript不会进行类型转换，除非类型指定为any,否则无法在使用中改变定义好的类型
-  const { method = 'get', url, data = null, headers } = config
-  const request = new XMLHttpRequest()
-  request.open(method, url)
-  Object.keys(headers!).forEach(header => {
-    // 如果没有传入data,删除content-type请求头
-    if (data === null && header.toLowerCase() === 'content-type') {
-      delete headers![header]
+const xhr = (config: AxiosConfig): Promise<any> => {
+  return new Promise((resolve, reject) => {
+    // TypeScript不会进行类型转换，除非类型指定为any,否则无法在使用中改变定义好的类型
+    const { method = 'get', url, data = null, headers, responseType } = config
+    const request = new XMLHttpRequest()
+    request.open(method, url)
+    Object.keys(headers!).forEach(header => {
+      // 如果没有传入data,删除content-type请求头
+      if (data === null && header.toLowerCase() === 'content-type') {
+        delete headers![header]
+      }
+      // 设置请求头部的方法。此方法必须在open()方法和send()方法之间调用。
+      // 如果多次对同一个请求头赋值,只会生成一个合并了多个值的请求头
+      request.setRequestHeader(header, headers![header])
+    })
+    // responseType: 可枚举的字符串，表示服务器返回数据的类型。
+    // 该属性可写，要在`open()`方法后、`send()`方法前设置属性值，告诉服务器返回指定类型的数据
+    // 可能的值：
+    //    "": 等同于text,表示服务器返回文本数据
+    //    arraybuffer: ArrayBuffer对象，表示服务器返回二进制数组
+    //    "blob": Blob对象，表示服务器返回二进制对象
+    //    "document": Document对象，表示服务器返回一个文档对象
+    //    "json": JSON对象，浏览器会自动调用JSON.parse()方法
+    //    "text": 字符串
+    if (responseType) {
+      request.responseType = responseType
     }
-    // 设置请求头部的方法。此方法必须在open()方法和send()方法之间调用。
-    // 如果多次对同一个请求头赋值,只会生成一个合并了多个值的请求头
-    request.setRequestHeader(header, headers![header])
-  })
-  // 用于发送HTTP请求。
-  // 接受一个可选参数作为请求主体；如果请求方法是GET或者HEAD，则应将请求主体设置为null
-  request.send(data)
+    // 用于发送HTTP请求。
+    // 接受一个可选参数作为请求主体；如果请求方法是GET或者HEAD，则应将请求主体设置为null
+    request.send(data)
 
-  request.addEventListener('load', (e) => {
-    console.log('success')
+    // readystatechange会在XMLHttpRequest的readyState属性发生改变时触发
+    // 当readyState的值为4的时候表示请求已经完成
+    request.addEventListener('readystatechange', () => {
+      if (request.readyState === 4) {
+        // request.getAllResponseHeaders: 返回所有响应头
+        const headers = request.getAllResponseHeaders()
+        const data = request.response
+        const { status, statusText } = request
+        resolve({ headers, data, status, statusText })
+      }
+    })
   })
+
 }
 export default xhr
