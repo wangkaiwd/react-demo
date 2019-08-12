@@ -1,6 +1,6 @@
-import { AxiosConfig } from './types'
+import { AxiosConfig, AxiosPromise } from './types'
 
-const xhr = (config: AxiosConfig): Promise<any> => {
+const xhr = (config: AxiosConfig): AxiosPromise => {
   return new Promise((resolve, reject) => {
     // TypeScript不会进行类型转换，除非类型指定为any,否则无法在使用中改变定义好的类型
     const { method = 'get', url, data = null, headers, responseType } = config
@@ -39,7 +39,7 @@ const xhr = (config: AxiosConfig): Promise<any> => {
         const headers = request.getAllResponseHeaders()
         const data = request.response
         const { status, statusText } = request
-        resolve({ headers, data, status, statusText })
+        resolve({ headers, data, status, statusText, config, request })
       }
     })
   })
