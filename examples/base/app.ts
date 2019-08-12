@@ -67,15 +67,6 @@ import axios from '../../src'
 // })
 
 // post请求
-// axios({
-//   url: '/base/post',
-//   method: 'post',
-//   data: {
-//     a: 1,
-//     b: 2
-//   }
-// })
-
 axios({
   url: '/base/post',
   method: 'post',
@@ -83,6 +74,31 @@ axios({
     a: 1,
     b: 2
   }
+})
+
+axios({
+  url: '/base/post',
+  method: 'post',
+  headers: {
+    'content-type': 'application/json',
+    // 告知客户端可以处理的内容类型，这种类型用`MIME`类型来表示
+    'Accept': 'application/json,text/plain,*/*'
+  },
+  data: {
+    a: 1,
+    b: 2
+  }
+})
+
+// URLSearchParams: 接口定义了一些实用的方法来处理URL的查询字符串
+const paramsString = 'q=URLUtils.searchParams&topic=api'
+const searchParams = new URLSearchParams(paramsString)
+// searchParams并不是原生普通对象，所以在逻辑中并没有进行处理
+// 这里浏览器会自动处理searchParams对象，并设置相应的合适的请求头
+axios({
+  url: '/base/post',
+  method: 'post',
+  data: searchParams
 })
 
 // buffer数据
