@@ -33,9 +33,10 @@ export const processHeaders = (headers: AnyObject, data: any): AnyObject => {
 export const parseHeaders = (headers: string): AnyObject => {
   const result: AnyObject = {}
   // 通过trim()将前后的空格去除，否则会生成含有空字符串的数组
-  headers.trim().split('\r\n').forEach(item => {
-    const array = item.split(': ')
-    result[array[0].toLowerCase()] = array[1]
+  headers.split('\r\n').forEach(item => {
+    const [key, value] = item.split(': ')
+    if (!key) return
+    result[key.toLowerCase()] = value
   })
   return result
 }
