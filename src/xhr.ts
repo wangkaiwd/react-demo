@@ -1,4 +1,5 @@
 import { AxiosConfig, AxiosPromise } from './types'
+import { parseHeaders } from './helpers/header'
 
 const xhr = (config: AxiosConfig): AxiosPromise => {
   return new Promise((resolve, reject) => {
@@ -35,9 +36,10 @@ const xhr = (config: AxiosConfig): AxiosPromise => {
     // 当readyState的值为4的时候表示请求已经完成
     request.addEventListener('readystatechange', () => {
       if (request.readyState !== 4) return
-      // request.getAllResponseHeaders: 返回所有响应头
-      const headers = request.getAllResponseHeaders()
-      const data = request.response
+      // request.getAllResponseHeaders: 返回所有响应头,分别将各个相应头用\r\n来进行分割
+      // const headers = request.getAllResponseHeaders()
+      const headers = parseHeaders(request.getAllResponseHeaders())
+      const data = responseType === 'text' ? request.responseText : request.response
       const { status, statusText } = request
       resolve({ headers, data, status, statusText, config, request })
     })

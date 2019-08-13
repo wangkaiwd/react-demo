@@ -22,3 +22,20 @@ export const processHeaders = (headers: AnyObject, data: any): AnyObject => {
   }
   return headers
 }
+
+// date: Tue, 13 Aug 2019 15:04:07 GMT
+// etag: W/"d-Ssxx4FRxEutDLwo2+xkkxKc4y0k"
+// connection: keep-alive
+// x-powered-by: Express
+// content-length: 13
+// content-type: application/json; charset=utf-8
+// 将这个格式的请求头转换为对象的形式
+export const parseHeaders = (headers: string): AnyObject => {
+  const result: AnyObject = {}
+  // 通过trim()将前后的空格去除，否则会生成含有空字符串的数组
+  headers.trim().split('\r\n').forEach(item => {
+    const array = item.split(': ')
+    result[array[0].toLowerCase()] = array[1]
+  })
+  return result
+}

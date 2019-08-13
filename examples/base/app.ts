@@ -112,11 +112,22 @@ import axios from '../../src'
 axios({
   url: '/base/post',
   method: 'post',
-  responseType: 'json',
   data: {
     a: 1,
     b: 2
   }
 }).then(res => {
   console.log('res', res)
+})
+
+axios({
+  url: '/base/post',
+  method: 'post',
+  responseType: 'json',
+  data: {
+    a: 1,
+    b: 2
+  }
+}).then(res => {
+  console.log('res', res.headers)
 })
