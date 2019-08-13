@@ -1,7 +1,7 @@
 import { AxiosConfig } from './types'
 import xhr from './xhr'
 import { buildUrl } from './helpers/url'
-import transformRequest from './helpers/data'
+import { transformRequest } from './helpers/data'
 import { processHeaders } from './helpers/header'
 
 const axios = (config: AxiosConfig) => {
