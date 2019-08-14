@@ -19,7 +19,7 @@ export interface AxiosConfig {
   responseType?: XMLHttpRequestResponseType;
 }
 
-interface AxiosResponse {
+export interface AxiosResponse {
   data: any;
   status: number;
   statusText: string;
