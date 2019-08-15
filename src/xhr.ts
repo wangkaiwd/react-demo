@@ -46,12 +46,12 @@ const xhr = (config: AxiosConfig): AxiosPromise => {
       const headers = parseHeaders(request.getAllResponseHeaders())
       const data = responseType === 'text' ? request.responseText : request.response
       const { status, statusText } = request
-      resolve({ headers, data, status, statusText, config, request })
+      handleResponse({ headers, data, status, statusText, config, request })
     })
 
     request.addEventListener('error', (err) => {
       console.log('err', err)
-      reject('Network Error')
+      reject(new Error('Network Error'))
     })
 
     request.addEventListener('timeout', (e) => {
