@@ -49,13 +49,11 @@ const xhr = (config: AxiosConfig): AxiosPromise => {
       handleResponse({ headers, data, status, statusText, config, request })
     })
 
-    request.addEventListener('error', (err) => {
-      console.log('err', err)
+    request.addEventListener('error', () => {
       reject(new Error('Network Error'))
     })
 
     request.addEventListener('timeout', (e) => {
-      console.log('timeout', e)
       reject(new Error(`Timeout of ${timeout} exceeded`))
     })
 
@@ -68,6 +66,10 @@ const xhr = (config: AxiosConfig): AxiosPromise => {
       }
     }
   })
-
 }
+// 错误情况：
+//    1. XMLHttpRequest error: request status 为0
+//    2. 触发request的error事件
+//    3. 请求超时
+//    4. 响应状态码<200 或者 >=300时
 export default xhr
