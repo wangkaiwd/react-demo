@@ -14,6 +14,8 @@ class AxiosError extends Error {
     this.code = options.code
     this.request = options.request
     this.response = options.response
+    // https://stackoverflow.com/questions/41102060/typescript-extending-error-class
+    // custom class extends built-in object,array etc for can use methods and property get complete code hint
     Object.setPrototypeOf(this, Error.prototype)
   }
 }

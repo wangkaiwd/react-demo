@@ -1,6 +1,6 @@
-import axios from '../../src'
+import dispatchRequest from '../../src'
 
-axios({
+dispatchRequest({
   method: 'get',
   url: '/simple/get',
   params: {

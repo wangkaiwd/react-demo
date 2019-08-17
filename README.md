@@ -23,7 +23,7 @@ http://www.example.com:80/path/to/myfile.html?key1=value1&key2=value2
 
 而在`axios`中，发起`get`请求会要求我们传递一个对象：  
 ```javascript
-axios.get('/user?ID=12345')
+dispatchRequest.get('/user?ID=12345')
   .then(function (response) {
     // handle success
     console.log(response);

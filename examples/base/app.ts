@@ -1,4 +1,4 @@
-import axios from '../../src'
+import dispatchRequest from '../../src'
 // // 测试数组
 // axios({
 //   method: 'get',
@@ -111,7 +111,7 @@ import axios from '../../src'
 
 // 如果传入普通对象，在发起请求的时候会自动进行JSON.stringify
 // 在接收到响应的时候，如果是字符串的话会自动尝试通过JSON.parse解析，如果不能解析的话就原样返回
-axios({
+dispatchRequest({
   url: '/base/post',
   method: 'post',
   data: {
@@ -123,7 +123,7 @@ axios({
 })
 
 // 当指定responseType: 'json',浏览器会自动将返回数据通过JSON.parse解析
-axios({
+dispatchRequest({
   url: '/base/post',
   method: 'post',
   responseType: 'json',

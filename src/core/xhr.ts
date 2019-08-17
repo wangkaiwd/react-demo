@@ -1,13 +1,13 @@
-import { AxiosRequestConfig, AxiosPromise, AxiosResponse } from './types'
-import { parseHeaders } from './helpers/header'
-import { createError } from './helpers/error'
+import { AxiosRequestConfig, AxiosPromise, AxiosResponse } from '../types'
+import { parseHeaders } from '../helpers/header'
+import { createError } from '../helpers/error'
 
 const xhr = (config: AxiosRequestConfig): AxiosPromise => {
   return new Promise((resolve, reject) => {
     // TypeScript不会进行类型转换，除非类型指定为any,否则无法在使用中改变定义好的类型
     const { method = 'get', url, data = null, headers, responseType, timeout } = config
     const request = new XMLHttpRequest()
-    request.open(method, url)
+    request.open(method.toLowerCase(), url!)
     Object.keys(headers!).forEach(header => {
       // 如果没有传入data,删除content-type请求头
       if (data === null && header.toLowerCase() === 'content-type') {
