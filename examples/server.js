@@ -27,18 +27,6 @@ app.use(express.urlencoded({ extended: true }))
 
 const router = express.Router()
 
-registerSimpleRouter()
-registerBaseRouter()
-registerErrorRouter()
-registerExtendRouter()
-
-app.use(router)
-
-const port = process.env.PORT || 8088
-module.exports = app.listen(port, () => {
-  console.log(`Server listening on http://localhost:${port}, Ctrl+C to stop`)
-})
-
 const registerSimpleRouter = () => {
   router.get('/simple/get', function(req, res) {
     res.json({
@@ -117,16 +105,28 @@ const registerExtendRouter = () => {
       msg: 'extend put'
     })
   })
-  router.patch('/extend/patch', (req, res) => {
-    res.json({
-      msg: 'extend patch'
-    })
-  })
-  router.request('/extend/request', (req, res) => {
+  router.get('/extend/request', (req, res) => {
     res.json({
       msg: 'extend request'
     })
   })
+  router.patch('/extend/patch', (req, res) => {
+    console.log(req.body)
+    res.json({
+      msg: 'extend patch'
+    })
+  })
 }
 
+registerSimpleRouter()
+registerBaseRouter()
+registerErrorRouter()
+registerExtendRouter()
+
+app.use(router)
+
+const port = process.env.PORT || 8088
+module.exports = app.listen(port, () => {
+  console.log(`Server listening on http://localhost:${port}, Ctrl+C to stop`)
+})
 
