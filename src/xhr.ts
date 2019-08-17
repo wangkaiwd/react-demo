@@ -1,7 +1,8 @@
-import { AxiosConfig, AxiosPromise, AxiosResponse } from './types'
+import { AxiosRequestConfig, AxiosPromise, AxiosResponse } from './types'
 import { parseHeaders } from './helpers/header'
+import { createError } from './helpers/error'
 
-const xhr = (config: AxiosConfig): AxiosPromise => {
+const xhr = (config: AxiosRequestConfig): AxiosPromise => {
   return new Promise((resolve, reject) => {
     // TypeScript不会进行类型转换，除非类型指定为any,否则无法在使用中改变定义好的类型
     const { method = 'get', url, data = null, headers, responseType, timeout } = config
@@ -50,11 +51,32 @@ const xhr = (config: AxiosConfig): AxiosPromise => {
     })
 
     request.addEventListener('error', () => {
-      reject(new Error('Network Error'))
+      reject(
+        createError(
+          {
+            message: 'Network Error',
+            name: 'network Error',
+            config,
+            request,
+            code: null,
+            isAxiosError: false
+          }
+        )
+      )
     })
 
     request.addEventListener('timeout', (e) => {
-      reject(new Error(`Timeout of ${timeout} exceeded`))
+      reject(
+        // new Error(`Timeout of ${timeout} exceeded`)
+        createError({
+          message: `Timeout of ${timeout} exceeded`,
+          isAxiosError: false,
+          request,
+          config,
+          code: 'ECONNABORTED',
+          name: 'timeout'
+        })
+      )
     })
 
     const handleResponse = (response: AxiosResponse): void => {
@@ -62,7 +84,19 @@ const xhr = (config: AxiosConfig): AxiosPromise => {
       if (status >= 200 && status < 300) {
         resolve(response)
       } else {
-        reject(new Error(`Request failed with status code ${status}`))
+        reject(
+          createError(
+            {
+              name: 'request failed',
+              message: `Request failed with status code ${status}`,
+              config,
+              code: null,
+              isAxiosError: false,
+              request,
+              response
+            }
+          )
+        )
       }
     }
   })

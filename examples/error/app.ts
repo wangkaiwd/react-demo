@@ -1,4 +1,5 @@
-import axios from '../../src'
+import axios from '../../src/axios'
+import { AxiosErrorProps } from '../../src/types'
 
 axios({
   url: '/error/get1'
@@ -12,7 +13,7 @@ axios({
   url: '/error/get'
 }).then(res => {
   console.log('2', res)
-}).catch(e => {
+}).catch((e: AxiosErrorProps) => {
   console.log('err2', e)
 })
 

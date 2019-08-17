@@ -10,7 +10,7 @@ export interface AnyObject {
   [key: string]: any
 }
 
-export interface AxiosConfig {
+export interface AxiosRequestConfig {
   url: string;
   method?: Method;
   data?: any;
@@ -25,10 +25,18 @@ export interface AxiosResponse {
   status: number;
   statusText: string;
   headers: any;
-  config: AxiosConfig;
+  config: AxiosRequestConfig;
   request: XMLHttpRequest
 }
 
 export interface AxiosPromise extends Promise<AxiosResponse> {
 
+}
+
+export interface AxiosErrorProps extends Error {
+  isAxiosError: boolean,
+  config: AxiosRequestConfig,
+  code?: string | null,
+  request?: XMLHttpRequest,
+  response?: AxiosResponse,
 }
