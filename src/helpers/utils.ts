@@ -9,3 +9,11 @@ export const isPlainObject = (value: any): value is object => {
   // return value !== null && typeof value === 'object'
   return toString.call(value) === '[object Object]'
 }
+
+// 这里用到了很多类型断言，感觉实现的不太好
+export const extend = <T, U> (to: T, from: U): T & U => {
+  for (const key in from) {
+    (to as T & U)[key] = from[key] as any
+  }
+  return to as T & U
+}

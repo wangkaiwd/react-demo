@@ -1,7 +1,7 @@
-import dispatchRequest from '../../src/core/dispatchRequest'
+import axios from '../../src'
 import { AxiosErrorProps } from '../../src/types'
 
-dispatchRequest({
+axios({
   url: '/error/get1'
 }).then(res => {
   console.log('1', res)
@@ -9,7 +9,7 @@ dispatchRequest({
   console.log('err1', e)
 })
 
-dispatchRequest({
+axios({
   url: '/error/get'
 }).then(res => {
   console.log('2', res)
@@ -19,7 +19,7 @@ dispatchRequest({
 
 // 模拟断网的情况，当刚刷新页面的时候，在5秒钟内切换到断网状态就可以复现
 setTimeout(() => {
-  dispatchRequest({
+  axios({
     url: '/error/get'
   }).then(res => {
     console.log('3', res)
@@ -28,7 +28,7 @@ setTimeout(() => {
   })
 }, 5000)
 
-dispatchRequest({
+axios({
   url: '/error/timeout',
   timeout: 2000
 }).then(res => {

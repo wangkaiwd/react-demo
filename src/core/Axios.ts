@@ -34,7 +34,7 @@ export class Axios implements AxiosProps {
     return this._mergeConfigWithData('patch', url, data, config)
   }
 
-  _mergeConfigWithoutData (method: Method, url: string, config: AxiosRequestConfig = {}): AxiosPromise {
+  private _mergeConfigWithoutData (method: Method, url: string, config: AxiosRequestConfig = {}): AxiosPromise {
     // Object.assign: 将所有可枚举的属性的值从一个或多个源对象复制到目标对象。它将返回目标对象。
     // 语法： Object.assign(target,...sources)
     // target: 目标对象， sources: 源对象
@@ -46,7 +46,7 @@ export class Axios implements AxiosProps {
     return dispatchRequest({ method, url, ...config })
   }
 
-  _mergeConfigWithData (method: Method, url: string, data: any, config: AxiosRequestConfig = {}): AxiosPromise {
+  private _mergeConfigWithData (method: Method, url: string, data: any, config: AxiosRequestConfig = {}): AxiosPromise {
     return dispatchRequest({
       method,
       url,

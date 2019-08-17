@@ -1,2 +1,2 @@
-export { default } from './core/dispatchRequest'
+export { default } from './axios'
 export * from './types/index'
