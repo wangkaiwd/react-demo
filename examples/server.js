@@ -75,6 +75,12 @@ const registerErrorRouter = () => {
   })
 }
 const registerExtendRouter = () => {
+  router.patch('/extend/patch1', (req, res) => {
+    console.log('patch')
+    res.json({
+      msg: 'extend patch'
+    })
+  })
   router.get('/extend/get', (req, res) => {
     res.json({
       msg: 'extend get'
@@ -108,12 +114,6 @@ const registerExtendRouter = () => {
   router.get('/extend/request', (req, res) => {
     res.json({
       msg: 'extend request'
-    })
-  })
-  router.patch('/extend/patch', (req, res) => {
-    console.log(req.body)
-    res.json({
-      msg: 'extend patch'
     })
   })
 }
