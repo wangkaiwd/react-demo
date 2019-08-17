@@ -28,44 +28,10 @@ app.use(express.urlencoded({ extended: true }))
 const router = express.Router()
 
 registerSimpleRouter()
+registerBaseRouter()
+registerErrorRouter()
+registerExtendRouter()
 
-router.get('/base/get', (req, res) => {
-  res.json(req.query)
-})
-
-router.post('/base/post', (req, res) => {
-  res.json(req.body)
-})
-router.post('/base/buffer', (req, res) => {
-  let msg = []
-  req.on('data', chunk => {
-    if (chunk) {
-      msg.push(chunk)
-    }
-  })
-  req.on('end', () => {
-    let buf = Buffer.concat(msg)
-    res.json(buf.toJSON())
-  })
-})
-
-router.get('/error/get', (req, res) => {
-  if (Math.random() > 0.5) {
-    res.json({
-      msg: 'hello world'
-    })
-  } else {
-    res.status(500)
-    res.end()
-  }
-})
-router.get('/error/timeout', (req, res) => {
-  setTimeout(() => {
-    res.json({
-      msg: 'hello world'
-    })
-  }, 3000)
-})
 app.use(router)
 
 const port = process.env.PORT || 8088
@@ -73,10 +39,92 @@ module.exports = app.listen(port, () => {
   console.log(`Server listening on http://localhost:${port}, Ctrl+C to stop`)
 })
 
-function registerSimpleRouter () {
+const registerSimpleRouter = () => {
   router.get('/simple/get', function(req, res) {
     res.json({
       msg: `hello world`
+    })
+  })
+}
+const registerBaseRouter = () => {
+  router.get('/base/get', (req, res) => {
+    res.json(req.query)
+  })
+
+  router.post('/base/post', (req, res) => {
+    res.json(req.body)
+  })
+  router.post('/base/buffer', (req, res) => {
+    let msg = []
+    req.on('data', chunk => {
+      if (chunk) {
+        msg.push(chunk)
+      }
+    })
+    req.on('end', () => {
+      let buf = Buffer.concat(msg)
+      res.json(buf.toJSON())
+    })
+  })
+}
+const registerErrorRouter = () => {
+  router.get('/error/get', (req, res) => {
+    if (Math.random() > 0.5) {
+      res.json({
+        msg: 'hello world'
+      })
+    } else {
+      res.status(500)
+      res.end()
+    }
+  })
+  router.get('/error/timeout', (req, res) => {
+    setTimeout(() => {
+      res.json({
+        msg: 'hello world'
+      })
+    }, 3000)
+  })
+}
+const registerExtendRouter = () => {
+  router.get('/extend/get', (req, res) => {
+    res.json({
+      msg: 'extend get'
+    })
+  })
+  router.options('/extend/options', (req, res) => {
+    res.json({
+      msg: 'extend options'
+    })
+  })
+  router.delete('/extend/delete', (req, res) => {
+    res.json({
+      msg: 'extend delete'
+    })
+  })
+  router.head('/extend/head', (req, res) => {
+    res.json({
+      msg: 'extend head'
+    })
+  })
+  router.post('/extend/post', (req, res) => {
+    res.json({
+      msg: 'extend post'
+    })
+  })
+  router.put('/extend/put', (req, res) => {
+    res.json({
+      msg: 'extend put'
+    })
+  })
+  router.patch('/extend/patch', (req, res) => {
+    res.json({
+      msg: 'extend patch'
+    })
+  })
+  router.request('/extend/request', (req, res) => {
+    res.json({
+      msg: 'extend request'
     })
   })
 }
