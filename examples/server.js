@@ -113,6 +113,16 @@ const registerExtendRouter = () => {
       msg: 'extend request'
     })
   })
+  router.get('/extend/user', (req, res) => {
+    res.json({
+      code: 0,
+      message: 'OK',
+      result: {
+        name: 'jack',
+        age: 18
+      }
+    })
+  })
 }
 
 registerSimpleRouter()

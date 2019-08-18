@@ -3,6 +3,9 @@ import dispatchRequest from './dispatchRequest'
 
 export class Axios implements AxiosProps {
   request (url: any, config?: any): AxiosPromise {
+    // 支持不同的参数调用，可以直接通过url来进行调用：
+    // axios(config)
+    // axios(url,config?)
     if (typeof url === 'string') {
       if (!config) {config = {}}
       config.url = url

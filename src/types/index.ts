@@ -20,8 +20,8 @@ export interface AxiosRequestConfig {
   timeout?: number;
 }
 
-export interface AxiosResponse {
-  data: any;
+export interface AxiosResponse<T = any> {
+  data: T;
   status: number;
   statusText: string;
   headers: any;
@@ -29,7 +29,7 @@ export interface AxiosResponse {
   request: XMLHttpRequest
 }
 
-export interface AxiosPromise extends Promise<AxiosResponse> {
+export interface AxiosPromise<T = any> extends Promise<AxiosResponse<T>> {
 
 }
 
@@ -42,21 +42,21 @@ export interface AxiosErrorProps extends Error {
 }
 
 export interface AxiosProps {
-  request (config: AxiosRequestConfig): AxiosPromise;
+  request<T = any> (config: AxiosRequestConfig): AxiosPromise<T>;
 
-  get (url: string, config?: AxiosRequestConfig): AxiosPromise;
+  get<T = any> (url: string, config?: AxiosRequestConfig): AxiosPromise<T>;
 
-  delete (url: string, config?: AxiosRequestConfig): AxiosPromise;
+  delete<T = any> (url: string, config?: AxiosRequestConfig): AxiosPromise<T>;
 
-  head (url: string, config?: AxiosRequestConfig): AxiosPromise;
+  head<T = any> (url: string, config?: AxiosRequestConfig): AxiosPromise<T>;
 
-  options (url: string, config?: AxiosRequestConfig): AxiosPromise;
+  options<T = any> (url: string, config?: AxiosRequestConfig): AxiosPromise<T>;
 
-  post (url: string, data?: any, config?: AxiosRequestConfig): AxiosPromise;
+  post<T = any> (url: string, data?: any, config?: AxiosRequestConfig): AxiosPromise<T>;
 
-  put (url: string, data?: any, config?: AxiosRequestConfig): AxiosPromise;
+  put<T = any> (url: string, data?: any, config?: AxiosRequestConfig): AxiosPromise<T>;
 
-  patch (url: string, data?: any, config?: AxiosRequestConfig): AxiosPromise;
+  patch<T = any> (url: string, data?: any, config?: AxiosRequestConfig): AxiosPromise<T>;
 }
 
 // 描述一个函数：参数为config:AxiosRequestConfig,返回值是AxiosPromise，并且这个函数也是一个对象，它的属性继承自Axios
@@ -64,11 +64,11 @@ export interface AxiosProps {
 // axios就是一个混合类型的例子：自己本身是函数，但它也可以作为对象来使用
 // 另外一个例子： React Dialog组件，可以直接调用，也可以通过方法来调用
 export interface AxiosInstance extends AxiosProps {
-  (config: AxiosRequestConfig): AxiosPromise;
+  <T = any> (config: AxiosRequestConfig): AxiosPromise<T>;
 
   // 为什么要使用函数重载：可以更明确的表示相应的参数类型对应的返回值类型，让类型更加清晰(让代码类型更加明确)
   // 函数重载：为同一个函数提供多个函数类型定义，根据不同的参数返回不同类型的数据
   // TypeScript在执行函数的时候会查找重载列表,按照定义顺序进行匹配，如果匹配的话就使用这个
   // 注意：函数的实现中的类型定义并不是重载列表的一部分，这里指axios()函数
-  (url: string, config?: AxiosRequestConfig): AxiosPromise;
+  <T = any> (url: string, config?: AxiosRequestConfig): AxiosPromise<T>;
 }
