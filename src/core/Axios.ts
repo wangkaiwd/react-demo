@@ -1,7 +1,32 @@
-import { AxiosProps, AxiosPromise, AxiosRequestConfig, Method } from '../types'
+import {
+  AxiosProps,
+  AxiosPromise,
+  AxiosRequestConfig,
+  Method,
+  AxiosResponse,
+  ResolvedFn, RejectedFn
+} from '../types'
 import dispatchRequest from './dispatchRequest'
+import InterceptorManage from './interceptorManage'
 
+interface Interceptors {
+  request: InterceptorManage<AxiosRequestConfig>;
+  response: InterceptorManage<AxiosResponse>;
+}
+interface PromiseChain<T> {
+  resolved: ResolvedFn<T> | ((config: AxiosRequestConfig) => AxiosPromise<T>);
+  rejected?: RejectedFn;
+}
 export class Axios implements AxiosProps {
+  interceptors: Interceptors
+
+  constructor () {
+    this.interceptors = {
+      request: new InterceptorManage<AxiosRequestConfig>(),
+      response: new InterceptorManage<AxiosResponse>()
+    }
+  }
+
   request (url: any, config?: any): AxiosPromise {
     // 支持不同的参数调用，可以直接通过url来进行调用：
     // axios(config)
@@ -13,6 +38,17 @@ export class Axios implements AxiosProps {
     } else {
       config = url
     }
+    const chain: PromiseChain<any>[] = [{
+      resolved: dispatchRequest,
+      rejected: undefined
+    }]
+    this.interceptors.request.forEach(interceptor => {
+      // Array.prototype.unshift: 将一个或多个元素添加到数组的开头，并返回该数组的新长度（该方法修改原有数组）
+      chain.unshift(interceptor)
+    })
+    this.interceptors.response.forEach(interceptor => {
+      chain.push(interceptor)
+    })
     return dispatchRequest(config)
   }
 
