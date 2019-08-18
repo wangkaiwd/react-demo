@@ -72,3 +72,12 @@ export interface AxiosInstance extends AxiosProps {
   // 注意：函数的实现中的类型定义并不是重载列表的一部分，这里指axios()函数
   <T = any> (url: string, config?: AxiosRequestConfig): AxiosPromise<T>;
 }
+
+interface AxiosInterceptorManage<T> {
+  use (resolved: ResolvedFn<T>, rejected: RejectedFn): number;
+
+  eject (interceptorId: number): void
+}
+
+type ResolvedFn<T> = <T>(val: T) => Promise<T>
+type RejectedFn = (error: any) => any
