@@ -75,8 +75,7 @@ const registerErrorRouter = () => {
   })
 }
 const registerExtendRouter = () => {
-  router.patch('/extend/patch1', (req, res) => {
-    console.log('patch')
+  router.patch('/extend/patch', (req, res) => {
     res.json({
       msg: 'extend patch'
     })
@@ -97,9 +96,7 @@ const registerExtendRouter = () => {
     })
   })
   router.head('/extend/head', (req, res) => {
-    res.json({
-      msg: 'extend head'
-    })
+    res.json(req.query)
   })
   router.post('/extend/post', (req, res) => {
     res.json({
