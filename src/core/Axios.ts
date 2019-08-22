@@ -42,10 +42,12 @@ export class Axios implements AxiosProps {
       resolved: dispatchRequest,
       rejected: undefined
     }]
+    // 后添加的先执行
     this.interceptors.request.forEach(interceptor => {
       // Array.prototype.unshift: 将一个或多个元素添加到数组的开头，并返回该数组的新长度（该方法修改原有数组）
       chain.unshift(interceptor)
     })
+    // 先添加的后执行
     this.interceptors.response.forEach(interceptor => {
       chain.push(interceptor)
     })
@@ -56,8 +58,9 @@ export class Axios implements AxiosProps {
     while (chain.length) {
       // shift: 从数组中删除第一个元素，并返回该元素的值。此方法更改数组的长度
       const { resolved, rejected } = chain.shift()!
+      promise = promise.then(resolved, rejected)
     }
-    return dispatchRequest(config)
+    return promise
   }
 
   get (url: string, config?: AxiosRequestConfig): AxiosPromise {
