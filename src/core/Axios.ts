@@ -49,6 +49,14 @@ export class Axios implements AxiosProps {
     this.interceptors.response.forEach(interceptor => {
       chain.push(interceptor)
     })
+    // Promise.resolve(value): 返回一个状态由给定value决定的Promise对象
+    // 如果value是带有then方法的对象，返回Promise对象的最终状态由then方法执行决定
+    // 否则，返回Promise对象的状态为fulfilled，并且将该value传递给对应的then方法
+    let promise = Promise.resolve(config)
+    while (chain.length) {
+      // shift: 从数组中删除第一个元素，并返回该元素的值。此方法更改数组的长度
+      const { resolved, rejected } = chain.shift()!
+    }
     return dispatchRequest(config)
   }
 
