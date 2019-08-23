@@ -42,6 +42,7 @@ export class Axios {
       resolved: dispatchRequest,
       rejected: undefined
     }]
+    console.log('this.interceptors', this)
     // 后添加的先执行
     this.interceptors.request.forEach(interceptor => {
       // Array.prototype.unshift: 将一个或多个元素添加到数组的开头，并返回该数组的新长度（该方法修改原有数组）

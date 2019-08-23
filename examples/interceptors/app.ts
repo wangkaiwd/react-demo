@@ -30,7 +30,7 @@ axios.interceptors.response.use(response => {
   return response
 })
 
-axios('interceptor/get', {
+axios('/interceptor/get', {
   headers: {
     test: ''
   }

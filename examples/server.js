@@ -133,6 +133,7 @@ registerSimpleRouter()
 registerBaseRouter()
 registerErrorRouter()
 registerExtendRouter()
+registerInterceptorRouter()
 
 app.use(router)
 

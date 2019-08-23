@@ -7,7 +7,7 @@ import { extend } from './helpers/utils'
 const createInstance = (): AxiosInstance => {
   const context = new Axios()
   // instance及axios函数在调用的时候，this是window，所以如果有用到this的话，要进行更改this指向
-  const instance = context.request
+  const instance = context.request.bind(context)
   return extend(instance, context)
 }
 const axios = createInstance()
