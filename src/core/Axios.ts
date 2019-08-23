@@ -27,22 +27,11 @@ export class Axios {
     }
   }
 
-  request (url: any, config?: any): AxiosPromise {
-    // 支持不同的参数调用，可以直接通过url来进行调用：
-    // axios(config)
-    // axios(url,config?)
-    if (typeof url === 'string') {
-      if (!config) {config = {}}
-      config.url = url
-
-    } else {
-      config = url
-    }
+  executeInterceptors (config: any) {
     const chain: PromiseChain<any>[] = [{
       resolved: dispatchRequest,
       rejected: undefined
     }]
-    console.log('this.interceptors', this)
     // 后添加的先执行
     this.interceptors.request.forEach(interceptor => {
       // Array.prototype.unshift: 将一个或多个元素添加到数组的开头，并返回该数组的新长度（该方法修改原有数组）
@@ -62,6 +51,20 @@ export class Axios {
       promise = promise.then(resolved, rejected)
     }
     return promise
+  }
+
+  request (url: any, config?: any): AxiosPromise {
+    // 支持不同的参数调用，可以直接通过url来进行调用：
+    // axios(config)
+    // axios(url,config?)
+    if (typeof url === 'string') {
+      if (!config) {config = {}}
+      config.url = url
+
+    } else {
+      config = url
+    }
+    return this.executeInterceptors(config)
   }
 
   get (url: string, config?: AxiosRequestConfig): AxiosPromise {
