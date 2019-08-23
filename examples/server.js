@@ -124,7 +124,11 @@ const registerExtendRouter = () => {
     })
   })
 }
-
+const registerInterceptorRouter = () => {
+  router.get('/interceptor/get', (req, res) => {
+    res.end('hello')
+  })
+}
 registerSimpleRouter()
 registerBaseRouter()
 registerErrorRouter()
