@@ -1,10 +1,10 @@
 import {
-  AxiosProps,
   AxiosPromise,
   AxiosRequestConfig,
-  Method,
   AxiosResponse,
-  ResolvedFn, RejectedFn
+  Method,
+  RejectedFn,
+  ResolvedFn
 } from '../types'
 import dispatchRequest from './dispatchRequest'
 import InterceptorManage from './interceptorManage'
@@ -17,7 +17,7 @@ interface PromiseChain<T> {
   resolved: ResolvedFn<T> | ((config: AxiosRequestConfig) => AxiosPromise<T>);
   rejected?: RejectedFn;
 }
-export class Axios implements AxiosProps {
+export class Axios {
   interceptors: Interceptors
 
   constructor () {

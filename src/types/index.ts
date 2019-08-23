@@ -15,7 +15,7 @@ export interface AxiosRequestConfig {
   method?: Method;
   data?: any;
   params?: any;
-  headers?: AnyObject;
+  headers?: any;
   responseType?: XMLHttpRequestResponseType;
   timeout?: number;
 }
@@ -42,6 +42,11 @@ export interface AxiosErrorProps extends Error {
 }
 
 export interface AxiosProps {
+  interceptors: {
+    request: AxiosInterceptorManage<AxiosRequestConfig>;
+    response: AxiosInterceptorManage<AxiosResponse>
+  };
+
   request<T = any> (config: AxiosRequestConfig): AxiosPromise<T>;
 
   get<T = any> (url: string, config?: AxiosRequestConfig): AxiosPromise<T>;
@@ -74,10 +79,16 @@ export interface AxiosInstance extends AxiosProps {
 }
 
 export interface AxiosInterceptorManage<T> {
-  use (resolved: ResolvedFn<T>, rejected: RejectedFn): number;
+  use (resolved: ResolvedFn<T>, rejected?: RejectedFn): number;
 
   eject (interceptorId: number): void
 }
 
-export type ResolvedFn<T> = <T>(val: T) => Promise<T>
+// export interface ResolvedFn<T = any> {
+//   (val: T): Promise<T>
+// }
+// 请求:传入config,返回config
+// 响应：传入响应，返回响应
+// 那么什么时候返回Promise?
+export type ResolvedFn<T = any> = (val: T) => T | Promise<T>
 export type RejectedFn = (error: any) => any

@@ -2,7 +2,7 @@ import { RejectedFn, ResolvedFn } from '../types'
 
 interface Interceptor<T> {
   resolved: ResolvedFn<T>,
-  rejected: RejectedFn,
+  rejected?: RejectedFn,
 }
 class InterceptorManage<T> {
   private readonly interceptors: Array<Interceptor<T> | null>
@@ -11,7 +11,7 @@ class InterceptorManage<T> {
     this.interceptors = []
   }
 
-  use (resolved: ResolvedFn<T>, rejected: RejectedFn): number {
+  use (resolved: ResolvedFn<T>, rejected?: RejectedFn): number {
     this.interceptors.push({
       resolved,
       rejected
