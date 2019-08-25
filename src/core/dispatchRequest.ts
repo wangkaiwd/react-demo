@@ -5,11 +5,9 @@ import { transformRequest, transformResponse } from '../helpers/data'
 import { processHeaders } from '../helpers/header'
 
 const dispatchRequest = (config: AxiosRequestConfig): AxiosPromise => {
-  console.log('dispatchRequest', config)
   processConfig(config)
   return xhr(config).then(
     (res) => {
-      console.log('response', res)
       return transformResponseData(res)
     }
   )

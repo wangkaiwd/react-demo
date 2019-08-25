@@ -20,7 +20,7 @@ axios.interceptors.response.use(response => {
   return response
 })
 
-axios.interceptors.response.use(response => {
+const interceptorId = axios.interceptors.response.use(response => {
   response.data += '2'
   return response
 })
@@ -29,7 +29,7 @@ axios.interceptors.response.use(response => {
   response.data += '3'
   return response
 })
-
+axios.interceptors.response.eject(interceptorId)
 axios('/interceptor/get', {
   headers: {
     test: ''

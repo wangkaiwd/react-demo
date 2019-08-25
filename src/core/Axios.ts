@@ -28,10 +28,7 @@ export class Axios {
   }
 
   executeInterceptors (config: any) {
-    const chain: PromiseChain<any>[] = [{
-      resolved: dispatchRequest,
-      rejected: undefined
-    }]
+    const chain: PromiseChain<any>[] = [{ resolved: dispatchRequest, rejected: undefined }]
     // 后添加的先执行
     this.interceptors.request.forEach(interceptor => {
       // Array.prototype.unshift: 将一个或多个元素添加到数组的开头，并返回该数组的新长度（该方法修改原有数组）
@@ -45,7 +42,6 @@ export class Axios {
     // 如果value是带有then方法的对象，返回Promise对象的最终状态由then方法执行决定
     // 否则，返回Promise对象的状态为fulfilled，并且将该value传递给对应的then方法
     let promise = Promise.resolve(config)
-    console.log('chain', chain)
     while (chain.length) {
       // shift: 从数组中删除第一个元素，并返回该元素的值。此方法更改数组的长度
       const { resolved, rejected } = chain.shift()!
