@@ -17,3 +17,7 @@ export const extend = <T, U> (to: T, from: U): T & U => {
   }
   return to as T & U
 }
+
+export const deepMerge = (...objs: any[]): any => {
+  console.log('deepMerge')
+}
