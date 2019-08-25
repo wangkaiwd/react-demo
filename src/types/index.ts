@@ -88,7 +88,6 @@ export interface AxiosInterceptorManage<T> {
 //   (val: T): Promise<T>
 // }
 // 请求:传入config,返回config
-// 响应：传入响应，返回响应
-// 那么什么时候返回Promise?
+// 响应：传入响应，Promise<T>
 export type ResolvedFn<T = any> = (val: T) => T | Promise<T>
 export type RejectedFn = (error: any) => any
