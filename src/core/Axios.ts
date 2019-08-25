@@ -19,12 +19,14 @@ interface PromiseChain<T> {
 }
 export class Axios {
   interceptors: Interceptors
+  defaults: AxiosRequestConfig
 
-  constructor () {
+  constructor (config: AxiosRequestConfig) {
     this.interceptors = {
       request: new InterceptorManage<AxiosRequestConfig>(),
       response: new InterceptorManage<AxiosResponse>()
     }
+    this.defaults = config
   }
 
   executeInterceptors (config: any) {
@@ -101,11 +103,11 @@ export class Axios {
     //   method,
     //   url
     // }))
-    return dispatchRequest({ method, url, ...config })
+    return this.request({ method, url, ...config })
   }
 
   private _mergeConfigWithData (method: Method, url: string, data: any, config: AxiosRequestConfig = {}): AxiosPromise {
-    return dispatchRequest({
+    return this.request({
       method,
       url,
       data,
