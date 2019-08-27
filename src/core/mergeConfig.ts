@@ -28,6 +28,7 @@ const mergeConfig = (config1: AxiosRequestConfig, config2?: AxiosRequestConfig):
         }
         return config[key] = config1[key]
       })
+      Object.keys(config2!).forEach(key => config[key] = config2![key])
     }
   }
   const handleDeepMergeKey = (key: any): void => {

@@ -129,12 +129,17 @@ const registerInterceptorRouter = () => {
     res.end('hello')
   })
 }
+const registerMergeConfig = () => {
+  router.post('/config/post', (req, res) => {
+    res.json(req.body)
+  })
+}
 registerSimpleRouter()
 registerBaseRouter()
 registerErrorRouter()
 registerExtendRouter()
 registerInterceptorRouter()
-
+registerMergeConfig()
 app.use(router)
 
 const port = process.env.PORT || 8088

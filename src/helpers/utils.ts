@@ -18,6 +18,32 @@ export const extend = <T, U> (to: T, from: U): T & U => {
   return to as T & U
 }
 
+// headers: {
+//   common: {
+//     Accept: 'application/json,text/plain,*/*'
+//   },
+//   post: {
+//     'Content-Type': 'application/x-www-form-urlencoded'
+//   }
+// }
+
 export const deepMerge = (...objs: any[]): any => {
-  console.log('deepMerge')
+  const result: any = {}
+  objs.forEach(obj => {
+    if (obj) {
+      Object.keys(obj).forEach(key => {
+        const val = obj[key]
+        if (isPlainObject(val)) {
+          if (isPlainObject(result[key])) {
+            result[key] = deepMerge(result[key], val)
+          } else {
+            result[key] = deepMerge({}, val)
+          }
+        } else {
+          result[key] = val
+        }
+      })
+    }
+  })
+  return result
 }

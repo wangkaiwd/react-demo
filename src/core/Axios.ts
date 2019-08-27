@@ -8,6 +8,7 @@ import {
 } from '../types'
 import dispatchRequest from './dispatchRequest'
 import InterceptorManage from './interceptorManage'
+import mergeConfig from './mergeConfig'
 
 interface Interceptors {
   request: InterceptorManage<AxiosRequestConfig>;
@@ -59,10 +60,11 @@ export class Axios {
     if (typeof url === 'string') {
       if (!config) {config = {}}
       config.url = url
-
     } else {
       config = url
     }
+    const newConfig = mergeConfig(this.defaults, config)
+    console.log('newConfig', newConfig)
     return this.executeInterceptors(config)
   }
 
