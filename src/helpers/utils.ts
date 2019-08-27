@@ -26,24 +26,26 @@ export const extend = <T, U> (to: T, from: U): T & U => {
 //     'Content-Type': 'application/x-www-form-urlencoded'
 //   }
 // }
-
+// 递归合并俩个对象的属性
+// 优秀方法：
+// 1. https://stackoverflow.com/questions/27936772/how-to-deep-merge-instead-of-shallow-merge/34749873
+// 2. https://gist.github.com/ahtcx/0cd94e62691f539160b32ecda18af3d6
 export const deepMerge = (...objs: any[]): any => {
   const result: any = {}
   objs.forEach(obj => {
-    if (obj) {
-      Object.keys(obj).forEach(key => {
-        const val = obj[key]
-        if (isPlainObject(val)) {
-          if (isPlainObject(result[key])) {
-            result[key] = deepMerge(result[key], val)
-          } else {
-            result[key] = deepMerge({}, val)
-          }
+    if (!obj) return
+    Object.keys(obj).forEach(key => {
+      const val = obj[key]
+      if (isPlainObject(val)) {
+        if (isPlainObject(result[key])) {
+          result[key] = deepMerge(result[key], val)
         } else {
-          result[key] = val
+          result[key] = deepMerge(val)
         }
-      })
-    }
+      } else {
+        result[key] = val
+      }
+    })
   })
   return result
 }
