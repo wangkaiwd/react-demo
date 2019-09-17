@@ -20,7 +20,7 @@ const xhr = (config: AxiosConfig): AxiosPromise => {
     // 该属性可写，要在`open()`方法后、`send()`方法前设置属性值，告诉服务器返回指定类型的数据
     // 可能的值：
     //    "": 等同于text,表示服务器返回文本数据
-    //    arraybuffer: ArrayBuffer对象，表示服务器返回二进制数组
+    //    "arraybuffer": ArrayBuffer对象，表示服务器返回二进制数组
     //    "blob": Blob对象，表示服务器返回二进制对象
     //    "document": Document对象，表示服务器返回一个文档对象
     //    "json": JSON对象，浏览器会自动调用JSON.parse()方法
@@ -44,6 +44,5 @@ const xhr = (config: AxiosConfig): AxiosPromise => {
       resolve({ headers, data, status, statusText, config, request })
     })
   })
-
 }
 export default xhr
