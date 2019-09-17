@@ -1,12 +1,14 @@
-import { AxiosConfig, AxiosPromise } from './types'
-import { parseHeaders } from './helpers/header'
+import { AxiosRequestConfig, AxiosPromise, AxiosResponse } from '../types'
+import { parseHeaders } from '../helpers/header'
+import { createError } from '../helpers/error'
 
-const xhr = (config: AxiosConfig): AxiosPromise => {
+const xhr = (config: AxiosRequestConfig): AxiosPromise => {
   return new Promise((resolve, reject) => {
     // TypeScript不会进行类型转换，除非类型指定为any,否则无法在使用中改变定义好的类型
-    const { method = 'get', url, data = null, headers, responseType } = config
+    const { method = 'get', url, data = null, headers, responseType, timeout } = config
     const request = new XMLHttpRequest()
-    request.open(method, url)
+    // 这里的请求方法要大写
+    request.open(method.toUpperCase(), url!)
     Object.keys(headers!).forEach(header => {
       // 如果没有传入data,删除content-type请求头
       if (data === null && header.toLowerCase() === 'content-type') {
@@ -28,6 +30,9 @@ const xhr = (config: AxiosConfig): AxiosPromise => {
     if (responseType) {
       request.responseType = responseType
     }
+    if (timeout) {
+      request.timeout = timeout
+    }
     // 用于发送HTTP请求。
     // 接受一个可选参数作为请求主体；如果请求方法是GET或者HEAD，则应将请求主体设置为null
     request.send(data)
@@ -36,13 +41,66 @@ const xhr = (config: AxiosConfig): AxiosPromise => {
     // 当readyState的值为4的时候表示请求已经完成
     request.addEventListener('readystatechange', () => {
       if (request.readyState !== 4) return
+      // 在请求完成前status的值为0。如果XMLHttpRequest出错，浏览器返回的status也为0
+      if (request.status === 0) return
       // request.getAllResponseHeaders: 返回所有响应头,分别将各个相应头用\r\n来进行分割
       // const headers = request.getAllResponseHeaders()
       const headers = parseHeaders(request.getAllResponseHeaders())
       const data = responseType === 'text' ? request.responseText : request.response
       const { status, statusText } = request
-      resolve({ headers, data, status, statusText, config, request })
+      handleResponse({ headers, data, status, statusText, config, request })
     })
+
+    request.addEventListener('error', () => {
+      reject(
+        createError({
+          message: 'Network Error',
+          name: 'network Error',
+          config,
+          request,
+          code: null,
+          isAxiosError: false
+        })
+      )
+    })
+
+    request.addEventListener('timeout', e => {
+      reject(
+        // new Error(`Timeout of ${timeout} exceeded`)
+        createError({
+          message: `Timeout of ${timeout} exceeded`,
+          isAxiosError: false,
+          request,
+          config,
+          code: 'ECONNABORTED',
+          name: 'timeout'
+        })
+      )
+    })
+
+    const handleResponse = (response: AxiosResponse): void => {
+      const { status } = response
+      if (status >= 200 && status < 300) {
+        resolve(response)
+      } else {
+        reject(
+          createError({
+            name: 'request failed',
+            message: `Request failed with status code ${status}`,
+            config,
+            code: null,
+            isAxiosError: false,
+            request,
+            response
+          })
+        )
+      }
+    }
   })
 }
+// 错误情况：
+//    1. XMLHttpRequest error: request status 为0
+//    2. 触发request的error事件
+//    3. 请求超时
+//    4. 响应状态码<200 或者 >=300时
 export default xhr
