@@ -1,13 +1,14 @@
-import resolve from 'rollup-plugin-node-resolve'
-import commonjs from 'rollup-plugin-commonjs'
-import sourceMaps from 'rollup-plugin-sourcemaps'
-import camelCase from 'lodash.camelcase'
-import typescript from 'rollup-plugin-typescript2'
-import json from 'rollup-plugin-json'
+// @ts-ignore
+import resolve from 'rollup-plugin-node-resolve';
+import commonjs from 'rollup-plugin-commonjs';
+import sourceMaps from 'rollup-plugin-sourcemaps';
+import { camelCase } from 'lodash';
+import typescript from 'rollup-plugin-typescript2';
+import json from 'rollup-plugin-json';
 
-const pkg = require('./package.json')
+const pkg = require('./package.json');
 
-const libraryName = 'typescript-project'
+const libraryName = 'typescript-project';
 
 export default {
   input: `src/${libraryName}.ts`,
@@ -35,4 +36,4 @@ export default {
     // Resolve source maps to the original source
     sourceMaps(),
   ],
-}
+};
