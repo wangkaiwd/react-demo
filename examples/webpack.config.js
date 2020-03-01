@@ -19,7 +19,6 @@ module.exports = {
     if (fs.statSync(fullDir).isDirectory() && fs.existsSync(entry)) {
       entries[dir] = ['webpack-hot-middleware/client', entry]
     }
-
     return entries
   }, {}),
 
@@ -29,6 +28,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, '__build__'),
     filename: '[name].js',
+    // 这个选项的值是通过loader或运行时创建的每一个路径的前缀
     publicPath: '/__build__/'
   },
 
