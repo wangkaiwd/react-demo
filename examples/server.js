@@ -24,7 +24,6 @@ const router = express.Router()
 app.use(router)
 
 router.get('/simple/get', (req, res) => {
-  console.log('req', req)
   res.json({
     message: 'hello world!'
   })
