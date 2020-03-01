@@ -8,9 +8,7 @@ export const buildUrl = (url: string, params: any) => {
   let strings: string[] = []
   Object.keys(params).map(key => {
     const value = params[key]
-    if (isEmpty(value)) {
-      return
-    }
+    // 只对第一层元素进行类型判断，所以不需要递归处理
     // {foo:[1,2,3]} => path/something?foo[]=1&foo[]=2&foo[]=3
     // {foo:{a:1,b:2,c:3}} => path/something?foo[]=encoded(JSON.stringify({a:1,b:2,c:3}))
     // {foo:[{a:1},{b:2}]} => path/something?foo[]=encoded(JSON.stringify({a:1}))&foo[]=encoded(JSON.stringify({b:2}))
@@ -19,13 +17,21 @@ export const buildUrl = (url: string, params: any) => {
         if (isEmpty(item)) {
           return
         }
-        strings.push(`${key}[]=${item}`)
+        if (isDate(item)) {
+          strings.push(`${key}[]=${item.toISOString()}`)
+        } else {
+          strings.push(`${key}[]=${encodeURI(JSON.stringify(item))}`)
+        }
       })
     }
-    if (isDate(value)) {
-      strings.push(value.toISOString())
+    if (isEmpty(value)) {
+      return
     }
-    strings.push(value)
+    if (isDate(value)) {
+      strings.push(`${key}=${value.toISOString()}`)
+    } else {
+      strings.push(`${key}=${value}`)
+    }
   })
   return `${url}?${strings.join('&')}`
 }

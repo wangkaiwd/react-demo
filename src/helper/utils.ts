@@ -8,5 +8,5 @@ export const isPlainObject = (value: any): value is Object => {
 
 // 类型谓词
 export const isDate = (value: any): value is Date => {
-  return toString.call(value) === '[object Date]'
+  return value !== null && typeof value === 'object'
 }
