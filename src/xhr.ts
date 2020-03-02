@@ -1,7 +1,7 @@
 import { AxiosRequestConfig } from './types'
 
-const xhr = (axiosRequestConfig: AxiosRequestConfig) => {
-  const { method = 'get', url, data = null } = axiosRequestConfig
+const xhr = (config: AxiosRequestConfig) => {
+  const { method = 'get', url, data = null } = config
   const request = new XMLHttpRequest()
   request.open(method.toUpperCase(), url)
   request.send(data)

@@ -11,7 +11,7 @@ const axios = (config: AxiosRequestConfig) => {
 
 const processConfig = (config: AxiosRequestConfig) => {
   config.url = transformUrl(config)
-  config.data = transformRequest(config)
+  config.data = transformData(config)
 }
 
 const transformUrl = (config: AxiosRequestConfig) => {
