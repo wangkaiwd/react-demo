@@ -14,7 +14,7 @@ const normalizedHeaders = (headers: any, normalizedKey: string) => {
 }
 export const processHeaders = (headers: any, data: any) => {
   normalizedHeaders(headers, 'Content-Type')
-  if (isPlainObject(data)) {
+  if (isPlainObject(data) && !headers['Content-Type']) {
     headers['Content-Type'] = 'application/json'
   }
   return headers
