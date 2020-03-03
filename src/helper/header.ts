@@ -6,6 +6,7 @@ const normalizedHeaders = (headers: any, normalizedKey: string) => {
     return
   }
   Object.keys(headers).map(key => {
+    // 用来判断用户传入的Content-Type是否为小写，如果是的话进行转换
     if (key !== normalizedKey && key.toUpperCase() === normalizedKey.toUpperCase()) {
       headers[normalizedKey] = headers[key]
       delete headers[key]

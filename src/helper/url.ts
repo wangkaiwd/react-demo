@@ -34,6 +34,7 @@ function getSerializedParams(strings: string[], url: string) {
 // 5. others：以k1=v1&k2=v2的格式进行拼接
 // 6. url中含有?：直接通过&进行拼接
 // 7. url含有hash: 舍弃#后面的内容
+// FIXME: 这里的代码逻辑还有待优化
 export const buildUrl = (url: string, params: any) => {
   if (!params) {
     return url
