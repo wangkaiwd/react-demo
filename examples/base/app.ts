@@ -70,24 +70,35 @@ axios({
     b: 2
   }
 })
-
+//
+//
+// // 请求的参数在浏览器中看不到？
+// const arr = new Int32Array([21, 31])
+//
 // axios({
 //   method: 'post',
-//   url: '/base/post',
-//   headers: {
-//     'content-type': 'application/json;charset=utf-8'
-//   },
-//   data: {
-//     a: 1,
-//     b: 2
-//   }
+//   url: '/base/buffer',
+//   data: arr
 // })
-//
-// 请求的参数在浏览器中看不到？
-const arr = new Int32Array([21, 31])
-
 axios({
   method: 'post',
-  url: '/base/buffer',
-  data: arr
+  url: '/base/post',
+  headers: {
+    'content-type': 'application/json;charset=utf-8',
+    'Accept': 'application/json,text/plain,*/*'
+  },
+  data: {
+    a: 1,
+    b: 2
+  }
+})
+
+const paramsString = 'q=URLUtils.searchParams&topic=api'
+const searchParams = new URLSearchParams(paramsString)
+// 对于URLSearchParams对象，浏览器会自动设置请求头为：
+// application/x-www-form-urlencoded;charset=UTF-8
+axios({
+  method: 'post',
+  url: '/base/post',
+  data: searchParams
 })
