@@ -1,4 +1,5 @@
 import { AxiosPromise, AxiosRequestConfig, AxiosResponse } from './types'
+import { parseHeaders } from './helper/header'
 // FIXME:
 //  1. 该处代码逻辑较长，需要优化
 //  2. 为什么这里的返回值的类型不能自动推断出来，必须明确指定？
@@ -26,8 +27,7 @@ const xhr = (config: AxiosRequestConfig): AxiosPromise => {
       if (request.readyState !== 4) {
         return
       }
-      const responseHeaders = request.getAllResponseHeaders()
-
+      const responseHeaders = parseHeaders(request.getAllResponseHeaders())
       const response: AxiosResponse = {
         status: request.status,
         statusText: request.statusText,

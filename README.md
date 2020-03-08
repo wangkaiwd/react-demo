@@ -12,3 +12,13 @@
   ```typescript
   // 如axios的请求配置项config
   ```
+* 通过请求的[`responseType`](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/responseType)来指定响应`response`的类型，`responseType`默认为`text`
+* 请求头的格式(都以换行符结尾，并且`key`和`value`之间以`: `进行分隔)：
+  ```text
+  connection: keep-alive
+  content-length: 13
+  content-type: application/json; charset=utf-8
+  date: Sun, 08 Mar 2020 09:01:06 GMT
+  etag: W/"d-Ssxx4FRxEutDLwo2+xkkxKc4y0k"
+  x-powered-by: Express
+  ```

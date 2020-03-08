@@ -20,3 +20,14 @@ export const processHeaders = (headers: any, data: any) => {
   }
   return headers
 }
+
+export const parseHeaders = (headers: string): object => {
+  const parsedArray: { [k: string]: string } = {}
+  if (!headers) return parsedArray
+  headers.split('\r\n').map(item => {
+    let [key, value] = item.split(':')
+    if (!key) return
+    parsedArray[key.trim()] = value.trim()
+  })
+  return parsedArray
+}
