@@ -32,4 +32,4 @@ export interface AxiosResponse {
   request: XMLHttpRequest
 }
 
-interface AxiosPromise extends Promise<AxiosResponse> {}
+export interface AxiosPromise extends Promise<AxiosResponse> {}

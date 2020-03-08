@@ -1,6 +1,8 @@
-import { AxiosRequestConfig, AxiosResponse } from './types'
-// FIXME: 该处代码逻辑较长，需要优化
-const xhr = (config: AxiosRequestConfig) => {
+import { AxiosPromise, AxiosRequestConfig, AxiosResponse } from './types'
+// FIXME:
+//  1. 该处代码逻辑较长，需要优化
+//  2. 为什么这里的返回值的类型不能自动推断出来，必须明确指定？
+const xhr = (config: AxiosRequestConfig): AxiosPromise => {
   return new Promise(resolve => {
     const { method = 'get', url, data = null, headers, responseType } = config
     const request = new XMLHttpRequest()

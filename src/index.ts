@@ -1,13 +1,13 @@
-import { AxiosRequestConfig } from './types'
+import { AxiosPromise, AxiosRequestConfig } from './types'
 import xhr from './xhr'
 import { buildUrl } from './helper/url'
 import { transformRequest } from './helper/data'
 import { processHeaders } from './helper/header'
 
-const axios = (config: AxiosRequestConfig) => {
+const axios = (config: AxiosRequestConfig): AxiosPromise => {
   // 发请求之前，先要对配置项进行处理
   processConfig(config)
-  xhr(config)
+  return xhr(config)
 }
 
 const processConfig = (config: AxiosRequestConfig) => {

@@ -61,7 +61,6 @@ export const buildUrl = (url: string, params: any) => {
       }
     })
   })
-  console.log('strings', strings)
   url = getSerializedParams(strings, url)
   return url
 }
