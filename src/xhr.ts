@@ -45,7 +45,7 @@ const xhr = (config: AxiosRequestConfig): AxiosPromise => {
       reject(createError(`Network error`, config, null, request))
     })
     request.addEventListener('timeout', e => {
-      reject(createError(`timeout of ${timeout} ms exceeded`, config, null, request))
+      reject(createError(`timeout of ${timeout} ms exceeded`, config, 'ECONNABORTED', request))
     })
     request.addEventListener('readystatechange', e => {
       // 在请求完成前，status的值为0。如果XMLHttpRequest出错，浏览器返回的status也为0
