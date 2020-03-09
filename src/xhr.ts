@@ -1,5 +1,6 @@
 import { AxiosPromise, AxiosRequestConfig, AxiosResponse } from './types'
 import { parseHeaders } from './helper/header'
+import { createError } from './helper/error'
 
 // FIXME:
 //  1. 该处代码逻辑较长，需要优化
@@ -10,7 +11,15 @@ const xhr = (config: AxiosRequestConfig): AxiosPromise => {
       if (response.status >= 200 && response.status < 300) {
         resolve(response)
       } else {
-        reject(new Error(`Request failed with status code ${response.status}`))
+        reject(
+          createError(
+            `Request failed with status code ${response.status}`,
+            config,
+            null,
+            request,
+            response
+          )
+        )
       }
     }
     const { method = 'get', url, data = null, headers, responseType, timeout } = config
@@ -33,10 +42,10 @@ const xhr = (config: AxiosRequestConfig): AxiosPromise => {
     })
     request.send(data)
     request.addEventListener('error', e => {
-      reject(new Error(`Network error`))
+      reject(createError(`Network error`, config, null, request))
     })
     request.addEventListener('timeout', e => {
-      reject(new Error(`timeout of ${timeout} ms exceeded`))
+      reject(createError(`timeout of ${timeout} ms exceeded`, config, null, request))
     })
     request.addEventListener('readystatechange', e => {
       // 在请求完成前，status的值为0。如果XMLHttpRequest出错，浏览器返回的status也为0

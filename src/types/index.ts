@@ -34,3 +34,15 @@ export interface AxiosResponse {
 }
 
 export interface AxiosPromise extends Promise<AxiosResponse> {}
+
+/**
+ * request的作用是什么？
+ * code的作用是什么？
+ */
+export interface AxiosError extends Error {
+  isAxiosError: boolean
+  request?: XMLHttpRequest
+  config?: AxiosRequestConfig
+  response?: AxiosResponse
+  code?: string | null
+}
