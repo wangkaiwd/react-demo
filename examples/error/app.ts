@@ -1,4 +1,4 @@
-import axios from '../../src/index'
+import axios, { AxiosError } from '../../src/index'
 
 /**
  * 模拟404
@@ -47,6 +47,10 @@ axios({
   timeout: 2000
 }).then(res => {
   console.log(res)
-}).catch((err) => {
-  console.log(err)
+}).catch((err: AxiosError) => {
+  // 这里推断不出来err的类型: Promise中的错误处理函数的类型接受的参数为any
+  //  onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null)
+  // 这里我们手动指定err的类型
+  console.log(err.request)
+  console.log(err.response)
 })
