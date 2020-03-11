@@ -1,6 +1,6 @@
-import { AxiosPromise, AxiosRequestConfig, AxiosResponse } from './types'
-import { parseHeaders } from './helper/header'
-import { createError } from './helper/error'
+import { AxiosPromise, AxiosRequestConfig, AxiosResponse } from '../types'
+import { parseHeaders } from '../helper/header'
+import { createError } from '../helper/error'
 
 // FIXME:
 //  1. 该处代码逻辑较长，需要优化
@@ -8,6 +8,7 @@ import { createError } from './helper/error'
 const xhr = (config: AxiosRequestConfig): AxiosPromise => {
   return new Promise((resolve, reject) => {
     const handleResponse = (response: AxiosResponse) => {
+      // 为什么是这个范围内的状态码？
       if (response.status >= 200 && response.status < 300) {
         resolve(response)
       } else {
@@ -24,7 +25,7 @@ const xhr = (config: AxiosRequestConfig): AxiosPromise => {
     }
     const { method = 'get', url, data = null, headers, responseType, timeout } = config
     const request = new XMLHttpRequest()
-    request.open(method.toUpperCase(), url)
+    request.open(method.toUpperCase(), url!)
     if (responseType) {
       // 要在调用open()初始化请求和send()发送请求到服务器之前调用
       request.responseType = responseType
