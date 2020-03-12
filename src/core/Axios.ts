@@ -1,9 +1,19 @@
-import { AxiosRequestConfig, Method } from '../types'
+import { AxiosPromise, AxiosRequestConfig, Method } from '../types'
 import dispatchRequest from './dispatchRequest'
 
 class Axios {
-  request(config: AxiosRequestConfig) {
-    return dispatchRequest(config)
+  // request (url: any, config?: any) 并不是重载列表里的一部分
+  // 重载列表只有这俩个：
+  // (config: AxiosRequestConfig): AxiosPromise
+  // (url: string, config?: AxiosRequestConfig): AxiosPromise
+  request(url: any, config?: any) {
+    let tempConfig = config ?? {} // nullish coalescing operator
+    if (config) {
+      tempConfig.url = url
+    } else {
+      tempConfig = url
+    }
+    return dispatchRequest(tempConfig)
   }
 
   // 这里感觉有些过度封装，实际上并没有必要这样做

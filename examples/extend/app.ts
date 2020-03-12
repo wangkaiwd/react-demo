@@ -30,21 +30,21 @@ axios.put('/extend/put', { msg: 'put' })
 
 axios.patch('/extend/patch', { msg: 'patch' })
 
-// // 函数重载 demo
-// axios({
-//   url: '/extend/post',
-//   method: 'post',
-//   data: {
-//     msg: 'hi normal'
-//   }
-// })
-//
-// axios('/extend/post', {
-//   method: 'post',
-//   data: {
-//     msg: 'hi function reload'
-//   }
-// })
+// 函数重载 demo
+axios({
+  url: '/extend/post',
+  method: 'post',
+  data: {
+    msg: 'hi normal'
+  }
+})
+
+axios('/extend/post', {
+  method: 'post',
+  data: {
+    msg: 'hi function overload'
+  }
+})
 //
 // // 响应数据支持泛型 demo
 // interface ResponseData<T = any> {
