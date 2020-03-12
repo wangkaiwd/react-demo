@@ -30,3 +30,10 @@
   etag: W/"d-Ssxx4FRxEutDLwo2+xkkxKc4y0k"
   x-powered-by: Express
   ```
+
+### 知识点
+[`TypeScript`函数重载](https://github.com/wangkaiwd/typescript-project/blob/5d6998f6521b547f32aea3b979e0b77f76b4c868/src/core/Axios.ts#L5-L17)：  
+1. 先声明重载列表(函数所支持的参数和返回值类型：习惯上从最精确开始排列)
+2. 函数真正定义和实现的时候，参数和返回值类型为`any`，并且这里的函数类型不算作重载列表
+3. 根据实现时根据传入参数的类型以及是否传参进行判断，然后实现相应的逻辑 
+
