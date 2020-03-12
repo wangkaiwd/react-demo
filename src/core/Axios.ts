@@ -8,7 +8,7 @@ class Axios {
 
   // 这里感觉有些过度封装，实际上并没有必要这样做
   private _requestMethodWithoutData(method: Method, url: string, config?: AxiosRequestConfig) {
-    return dispatchRequest(Object.assign(config || {}, { url, method: 'get' }))
+    return dispatchRequest(Object.assign(config || {}, { url, method }))
   }
 
   private _requestMethodWithData(
@@ -21,7 +21,7 @@ class Axios {
       Object.assign(config || {}, {
         url,
         data,
-        method: 'post'
+        method
       })
     )
   }
@@ -52,7 +52,7 @@ class Axios {
   }
 
   patch(url: string, data?: any, config?: AxiosRequestConfig) {
-    return this._requestMethodWithData('post', url, data, config)
+    return this._requestMethodWithData('patch', url, data, config)
   }
 }
 export default Axios
