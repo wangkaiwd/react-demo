@@ -1,5 +1,6 @@
 import { isPlainObject } from './utils'
 
+// FIXME: 试一下数组是如何处理的
 export const transformRequest = (data: any) => {
   if (isPlainObject(data)) {
     return JSON.stringify(data)
