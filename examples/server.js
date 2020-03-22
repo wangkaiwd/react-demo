@@ -27,7 +27,7 @@ registerSimpleRouter()
 registerBaseRouter()
 registerErrorRouter()
 registerExtendRouter()
-
+registerInterceptorRouter()
 app.listen(port, () => {
   console.log(`Server listening on http://localhost:${port}, Ctrl+C to stop`)
 })
@@ -131,5 +131,11 @@ function registerExtendRouter () {
         age: 18
       }
     })
+  })
+}
+
+function registerInterceptorRouter () {
+  router.get('/interceptor/get', function(req, res) {
+    res.end('hello interceptor')
   })
 }

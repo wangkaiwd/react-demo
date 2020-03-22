@@ -22,6 +22,7 @@ class InterceptorManager<T> {
   }
 
   // 传入一个回调函数，并将interceptors中的每一项都作为回调函数的参数来执行回调函数
+  // 感觉这个方法多余，可以直接通过实例获取其interceptors，然后直接通过数组的forEach方法进行遍历
   forEach(fn: (interceptor: Interceptor<T>) => void) {
     this.interceptors.forEach(interceptor => {
       if (interceptor) {

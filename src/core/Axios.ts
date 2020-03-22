@@ -1,11 +1,13 @@
-import { AxiosRequestConfig, AxiosResponse, Method, RejectFn, ResolvedFn } from '../types'
+import {
+  AxiosRequestConfig,
+  AxiosResponse,
+  Interceptors,
+  Method,
+  RejectFn,
+  ResolvedFn
+} from '../types'
 import dispatchRequest from './dispatchRequest'
 import InterceptorManager from './interceptorManager'
-
-interface Interceptors {
-  request: InterceptorManager<AxiosRequestConfig>
-  response: InterceptorManager<AxiosResponse>
-}
 
 interface PromiseChain<T = any> {
   resolved: ResolvedFn<T>
@@ -27,12 +29,7 @@ class Axios {
     } else {
       config = url
     }
-    const chain: PromiseChain[] = [
-      {
-        resolved: dispatchRequest,
-        rejected: undefined
-      }
-    ]
+    const chain: PromiseChain[] = []
 
     // 复习数组的添加和删除方法：
     // 都会改变原数组:
@@ -41,9 +38,9 @@ class Axios {
     //  3. Array.prototype.pop: 删除数组的最后一个元素，并返回这个被删除的元素
     //  4. Array.prototype.push: 在数组的末尾添加一个或多个元素，并返回数组的新长度
     this.interceptors.request.forEach(interceptor => {
-      chain.unshift(interceptor)
+      chain.push(interceptor)
     })
-
+    chain.push({ resolved: dispatchRequest, rejected: undefined })
     this.interceptors.response.forEach(interceptor => {
       chain.push(interceptor)
     })
