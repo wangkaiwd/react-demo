@@ -7,13 +7,12 @@ class Axios {
   // (config: AxiosRequestConfig): AxiosPromise
   // (url: string, config?: AxiosRequestConfig): AxiosPromise
   request(url: any, config?: any) {
-    let tempConfig = config ?? {} // nullish coalescing operator
     if (config) {
-      tempConfig.url = url
+      config.url = url
     } else {
-      tempConfig = url
+      config = url
     }
-    return dispatchRequest(tempConfig)
+    return dispatchRequest(config)
   }
 
   // 这里感觉有些过度封装，实际上并没有必要这样做
