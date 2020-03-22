@@ -22,8 +22,8 @@
 
 拦截器(请求拦截器/响应拦截器)：
 * 调用`use`方法的时候，将对应的成功和失败回调放入数组中
-* 在发起请求时，将每一个新加的`request`放入拦截器数组中的开头，将每一个新加的`response`放入拦截器数组中的末尾
-
+* 在发请求之前，先将请求拦截器`push`到拦截器数组(存储`promise` `resolve`后执行的函数与`reject`后执行的函数)中，
+之后将`xhr`请求函数`push`到数组中，之后将所有响应拦截器的内容`push`到数组中
 
 
 ### 技巧
@@ -60,5 +60,9 @@
 * [ant design 动态增减表单项](https://3x.ant.design/components/form-cn/#components-form-demo-dynamic-form-item)
 * 删除的时候不要将数组的某项直接删除，而是将该项置为`null`，判断如果对应索引的数据为`null`，则代码该项被删除
 
+拦截器：
+* [request interceptors order is reversed](https://github.com/axios/axios/issues/1663)
+* 之后添加的请求拦截器会无法访问到之前拦截器所添加的内容，具体例子见上一条`issue`
+* [preserve order of request interceptors.Fixes](https://github.com/axios/axios/pull/1041/files)
 ### 比较复杂的处理过程
 

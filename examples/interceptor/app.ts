@@ -2,6 +2,7 @@ import axios from '../../src'
 
 axios.interceptors.request.use(config => {
   config.headers.test += '1'
+  config.id = 1
   return config
 })
 axios.interceptors.request.use(config => {
@@ -36,6 +37,7 @@ axios({
     test: ''
   }
 }).then((res) => {
+  console.log(res.config)
   console.log(res.data)
 }, (err) => {
   console.log(err)
