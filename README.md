@@ -20,6 +20,10 @@
 * 响应头为`http`报文格式，需要处理为`JavaScript`对象格式
 * 返回的`response`类型默认为`text`(由`responseType`)来进行指定。当响应数据为`json`字符串时，我们想要自动转换
 
+拦截器(请求拦截器/响应拦截器)：
+* 调用`use`方法的时候，将对应的成功和失败回调放入数组中
+* 在发起请求时，将`request`的拦截器中的内容放到请求`Promise`之前，将`response`的拦截器中的内容放到请求`Promise`之后
+
 ### 技巧
 * 通过传入一个对象，然后修改对象的引用，进而在其它地方直接使用更改后的对象
   ```typescript
@@ -42,11 +46,17 @@
 2. 函数真正定义和实现的时候，参数和返回值类型为`any`，并且这里的函数类型不算作重载列表
 3. 根据实现时根据传入参数的类型以及是否传参进行判断，然后实现相应的逻辑 
 
-直接使用`export`与`import`一起使用
+直接使用`export`与`import`一起使用：
+* [aggregate imports then export in Typescript](https://stackoverflow.com/questions/35837029/aggregate-imports-then-export-in-typescript)
 
 `http`请求状态码分类：
 
 `Promise`的`then`中的错误回调无法确定参数类型为`any`，需要手动指定
+
+`JavaScript`如何生成唯一`id`确定数组的每一项:
+* [`lodash`的`uniqueId`](https://github.com/lodash/lodash/blob/master/uniqueId.js)
+* [ant design 动态增减表单项](https://3x.ant.design/components/form-cn/#components-form-demo-dynamic-form-item)
+* 删除的时候不要将数组的某项直接删除，而是将该项置为`null`，判断如果对应索引的数据为`null`，则代码该项被删除
 
 ### 比较复杂的处理过程
 

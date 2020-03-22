@@ -71,3 +71,18 @@ export interface AxiosInstance extends Axios {
 
   <T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>
 }
+
+// 这里的类型定义导出，只是为方便使用者调用，而不一定会在实现的代码中使用
+export interface AxiosInterceptorManager<T> {
+  use(resolved: ResolvedFn<T>, rejected?: RejectFn): number
+
+  eject(id: number): void
+}
+
+export interface ResolvedFn<T> {
+  (val: T): T | Promise<T>
+}
+
+export interface RejectFn {
+  (error: any): any
+}

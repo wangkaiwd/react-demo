@@ -1,7 +1,22 @@
-import { AxiosRequestConfig, Method } from '../types'
+import { AxiosRequestConfig, AxiosResponse, Method, RejectFn, ResolvedFn } from '../types'
 import dispatchRequest from './dispatchRequest'
+import InterceptorManager from './interceptorManager'
 
+interface Interceptors {
+  request: InterceptorManager<AxiosRequestConfig>
+  response: InterceptorManager<AxiosResponse>
+}
+
+interface PromiseChain<T = any> {
+  resolved: ResolvedFn<T>
+  rejected?: RejectFn
+}
 class Axios {
+  interceptors: Interceptors = {
+    request: new InterceptorManager<AxiosRequestConfig>(),
+    response: new InterceptorManager<AxiosResponse>()
+  }
+
   // request (url: any, config?: any) 并不是重载列表里的一部分
   // 重载列表只有这俩个：
   // (config: AxiosRequestConfig): AxiosPromise
@@ -12,7 +27,36 @@ class Axios {
     } else {
       config = url
     }
-    return dispatchRequest(config)
+    const chain: PromiseChain[] = [
+      {
+        resolved: dispatchRequest,
+        rejected: undefined
+      }
+    ]
+
+    // 复习数组的添加和删除方法：
+    // 都会改变原数组:
+    //  1. Array.prototype.shift: 删除数组开头的第一个元素，并返回这个被删除的元素
+    //  2. Array.prototype.unshift: 在数组的开头添加一个或多个元素，返回数组的新长度
+    //  3. Array.prototype.pop: 删除数组的最后一个元素，并返回这个被删除的元素
+    //  4. Array.prototype.push: 在数组的末尾添加一个或多个元素，并返回数组的新长度
+    this.interceptors.request.forEach(interceptor => {
+      chain.unshift(interceptor)
+    })
+
+    this.interceptors.response.forEach(interceptor => {
+      chain.push(interceptor)
+    })
+    let promise = Promise.resolve(config)
+    // while (chain.length) {
+    //   // [].shift === undefined
+    //   const { resolved, rejected } = chain.shift()!
+    //   promise = promise.then(resolved, rejected)
+    // }
+    chain.map(({ resolved, rejected }) => {
+      promise = promise.then(resolved, rejected)
+    })
+    return promise
   }
 
   // 这里感觉有些过度封装，实际上并没有必要这样做

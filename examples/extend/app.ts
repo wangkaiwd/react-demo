@@ -37,8 +37,6 @@ axios({
   data: {
     msg: 'hi normal'
   }
-}).then(response => {
-
 })
 
 axios('/extend/post', {
