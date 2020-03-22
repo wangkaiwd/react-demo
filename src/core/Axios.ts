@@ -1,4 +1,4 @@
-import { AxiosPromise, AxiosRequestConfig, Method } from '../types'
+import { AxiosRequestConfig, Method } from '../types'
 import dispatchRequest from './dispatchRequest'
 
 class Axios {
@@ -21,6 +21,7 @@ class Axios {
     return dispatchRequest(Object.assign(config || {}, { url, method }))
   }
 
+  // 可以通过一个数组遍历来实现对应方法的实现
   private _requestMethodWithData(
     method: Method,
     url: string,
