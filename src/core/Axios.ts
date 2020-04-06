@@ -19,7 +19,7 @@ class Axios {
     response: new InterceptorManager<AxiosResponse>()
   }
 
-  // request (url: any, config?: any) 并不是重载列表里的一部分
+  // request (url: any, config?: any) 并不是重载列表里的一部分f
   // 重载列表只有这俩个：
   // (config: AxiosRequestConfig): AxiosPromise
   // (url: string, config?: AxiosRequestConfig): AxiosPromise
@@ -58,7 +58,7 @@ class Axios {
 
   // 这里感觉有些过度封装，实际上并没有必要这样做
   private _requestMethodWithoutData(method: Method, url: string, config?: AxiosRequestConfig) {
-    return dispatchRequest(Object.assign(config || {}, { url, method }))
+    return this.request(Object.assign(config || {}, { url, method }))
   }
 
   // 可以通过一个数组遍历来实现对应方法的实现
@@ -68,7 +68,7 @@ class Axios {
     data?: any,
     config?: AxiosRequestConfig
   ) {
-    return dispatchRequest(
+    return this.request(
       Object.assign(config || {}, {
         url,
         data,

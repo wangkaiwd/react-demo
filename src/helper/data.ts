@@ -8,7 +8,8 @@ export const transformRequest = (data: any) => {
   return data
 }
 
-// 由于不设置responseType的时候，会默认返回字符串类型的响应
+// 由于不设置responseType的时候，会默认返回字符串类型的响应:
+// @see:https://developer.mozilla.org/zh-CN/docs/Web/API/XMLHttpRequest/responseType
 // 而我们想对json字符串在响应的时候进行自动转换
 export const transformResponse = (data: any) => {
   if (typeof data !== 'string') return data
