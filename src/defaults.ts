@@ -20,3 +20,5 @@ methodsNoData.forEach(method => (defaults.headers[method] = {}))
 methodsWithData.forEach(
   method => (defaults.headers[method] = { 'Content-Type': 'application/x-www-form-urlencoded' })
 )
+
+export default defaults

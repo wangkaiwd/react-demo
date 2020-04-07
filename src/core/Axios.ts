@@ -14,9 +14,14 @@ interface PromiseChain<T = any> {
   rejected?: RejectFn
 }
 class Axios {
+  defaults: AxiosRequestConfig
   interceptors: Interceptors = {
     request: new InterceptorManager<AxiosRequestConfig>(),
     response: new InterceptorManager<AxiosResponse>()
+  }
+
+  constructor(initConfig: AxiosRequestConfig) {
+    this.defaults = initConfig
   }
 
   // request (url: any, config?: any) 并不是重载列表里的一部分f

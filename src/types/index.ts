@@ -58,6 +58,7 @@ export interface Interceptors {
 }
 
 interface Axios<T = any> {
+  defaults: AxiosRequestConfig
   interceptors: Interceptors
 
   request<T = any>(config: AxiosRequestConfig): AxiosPromise<T>

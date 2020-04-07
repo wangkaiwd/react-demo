@@ -1,9 +1,10 @@
 import Axios from './core/Axios'
 import { extend } from './helper/utils'
-import { AxiosInstance } from './types'
+import { AxiosInstance, AxiosRequestConfig } from './types'
+import defaults from './defaults'
 
-const createInstance = (): AxiosInstance => {
-  const context = new Axios()
+const createInstance = (defaults: AxiosRequestConfig): AxiosInstance => {
+  const context = new Axios(defaults)
   // axios可以直接传入配置项调用
   // const instance = Axios.prototype.request // 这里不通过bind来纠正this目前的代码也不会出现问题
   // 这里如果直接调用instance的话, this => undefined (类声明和类表达式的主体都执行在严格模式下)
@@ -13,5 +14,5 @@ const createInstance = (): AxiosInstance => {
   return extend(instance, context)
 }
 
-const axios = createInstance()
+const axios = createInstance(defaults)
 export default axios
