@@ -6,17 +6,17 @@ import { AxiosRequestConfig } from '../types'
 // params,url,data: 只使用用户传入项
 // 其它配置项：用户传入的话使用用户传入项，否则使用默认配置
 
+interface IStrategies {
+  [key: string]: any
+}
+
 const defaultStrategy = (val1: any, val2: any) => {
   return typeof val2 !== 'undefined' ? val2 : val1
 }
-
 const fromVal2Strategy = (val1: any, val2: any) => {
   if (typeof val2 !== 'undefined') {
     return val2
   }
-}
-interface IStrategies {
-  [key: string]: any
 }
 const strategies: IStrategies = {}
 const strategyKeysOfFromVal2 = ['url', 'params', 'data']
@@ -34,11 +34,14 @@ const mergeConfig = (config1: AxiosRequestConfig, config2?: AxiosRequestConfig) 
     const strategy = strategies[key] || defaultStrategy
     config[key] = strategy(config1[key], config2![key])
   }
+  // config2中的所有属性和config1中对应属性根据不同合并策略进行合并
   for (const key in config2) {
     if (config2.hasOwnProperty(key)) {
       mergeField(key)
     }
   }
+
+  // config1中拥有的属性但是config2中没有属性通过不同的合并策略进行合并
   for (const key in config1) {
     if (config1.hasOwnProperty(key) && !config2[key]) {
       mergeField(key)

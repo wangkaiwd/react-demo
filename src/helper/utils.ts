@@ -1,7 +1,7 @@
+const toString = Object.prototype.toString
 export const isEmpty = (value: any) => {
   return typeof value === 'undefined' || value === null
 }
-const toString = Object.prototype.toString
 export const isPlainObject = (value: any): value is Object => {
   return toString.call(value) === '[object Object]'
 }
@@ -28,4 +28,12 @@ export const extend = <T, U>(to: T, from: U): T & U => {
     ;(to as T & U)[key] = from[key] as any
   }
   return to as T & U
+}
+
+/**
+ * 元素深合并
+ * @param objs
+ */
+export const deepMerge = (...objs: any[]) => {
+  const result = Object.create(null)
 }
