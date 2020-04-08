@@ -64,5 +64,8 @@
 * [request interceptors order is reversed](https://github.com/axios/axios/issues/1663)
 * 之后添加的请求拦截器会无法访问到之前拦截器所添加的内容，具体例子见上一条`issue`
 * [preserve order of request interceptors.Fixes](https://github.com/axios/axios/pull/1041/files)
-### 比较复杂的处理过程
 
+### 比较复杂的处理过程
+* 元素深合并：`deepMerge`
+* 请求`url`拼接
+* 请求响应拦截器处理

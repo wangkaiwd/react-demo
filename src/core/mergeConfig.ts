@@ -18,12 +18,17 @@ const fromVal2Strategy = (val1: any, val2: any) => {
     return val2
   }
 }
+
+// {common:{c:'c'},post:{a:'a'}} , { common:{b:'b'}, post: {a: 'a', c:'c'} }
+const deepMergeStrategy = (val1: any, val2: any) => {}
 const strategies: IStrategies = {}
 const strategyKeysOfFromVal2 = ['url', 'params', 'data']
 
 strategyKeysOfFromVal2.forEach(key => (strategies[key] = fromVal2Strategy))
 
 const strategyKeysOfDeepMerge = ['headers']
+
+// strategyKeysOfDeepMerge.forEach(key => strategies[key] = )
 
 const mergeConfig = (config1: AxiosRequestConfig, config2?: AxiosRequestConfig) => {
   if (!config2) {

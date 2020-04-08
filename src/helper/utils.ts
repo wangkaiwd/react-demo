@@ -6,11 +6,11 @@ export const isPlainObject = (value: any): value is Object => {
   return toString.call(value) === '[object Object]'
 }
 
+// 类型谓词
 export const isDate = (value: any): value is Date => {
   return toString.call(value) === '[object Date]'
 }
 
-// 类型谓词
 export const isObject = (value: any) => {
   return value !== null && typeof value === 'object'
 }
@@ -36,4 +36,19 @@ export const extend = <T, U>(to: T, from: U): T & U => {
  */
 export const deepMerge = (...objs: any[]) => {
   const result = Object.create(null)
+  objs.map(obj => {
+    Object.keys(obj).map(key => {
+      const value = obj[key]
+      if (isPlainObject(value)) {
+        if (isPlainObject(result[key])) {
+          result[key] = deepMerge(result[key], value)
+        } else {
+          result[key] = deepMerge(value)
+        }
+      } else {
+        result[key] = value
+      }
+    })
+  })
+  return result
 }
